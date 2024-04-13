@@ -50,11 +50,10 @@ async def get_cart():
 async def add_to_cart(item: Item):
     if not item.id in db:
         return JSONResponse(status_code=404, content={"message": "Item not found"})
-    cart_item = item.model_copy()
-    if item.quantity < cart_item.quantity:
+    if item.quantity < db[item.id].quantity:
         JSONResponse(status_code=404, content={"message": "Out of stock"})
-    shopping_cart[cart_item.id] = cart_item
-    return cart_item
+    shopping_cart[item.id] = item
+    return item
 
 
 # PUT method to update an item in the shopping cart
