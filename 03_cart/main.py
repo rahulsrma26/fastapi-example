@@ -50,8 +50,8 @@ async def get_cart():
 async def add_to_cart(item: Item):
     if not item.id in db:
         return JSONResponse(status_code=404, content={"message": "Item not found"})
-    if item.quantity < db[item.id].quantity:
-        JSONResponse(status_code=404, content={"message": "Out of stock"})
+    if item.quantity > db[item.id].quantity:
+        return JSONResponse(status_code=404, content={"message": "Out of stock"})
     shopping_cart[item.id] = item
     return item
 
